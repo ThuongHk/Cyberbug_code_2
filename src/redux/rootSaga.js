@@ -22,7 +22,13 @@ export function*rootSaga(){
     followCategory.followGetCategorySaga(),
      // ------newProject---------
     followProjectAuthor.followNewProjectSaga(),
-    followProjectAuthor.followGetListProject()
+    followProjectAuthor.followGetListProject(),
+    followProjectAuthor.followUpdateProject(),
+    followProjectAuthor.followDeleteProject(),
+    followProjectAuthor.followGetUserProject(),
+    followProjectAuthor.followPushUserArray(),
+    followProjectAuthor.followDeleteMember(),
+
 
  ])
 

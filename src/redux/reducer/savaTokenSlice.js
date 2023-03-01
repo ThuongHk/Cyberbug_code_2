@@ -7,7 +7,8 @@ if(localStorage.getItem(USER_LOGIN)){
 }
 
 const initialState = {
-   userLogin : usLogin
+   userLogin : usLogin,
+   addUserAutho: []
 }
 
 const savaTokenSlice = createSlice({
@@ -16,10 +17,13 @@ const savaTokenSlice = createSlice({
   reducers: {
        tokenLogin: (state, action) => {       
         state.userLogin = action.payload
+       },
+       addAutho: (state, action) => {
+        state.addUserAutho = action.payload
        }
   }
 });
 
-export const {tokenLogin} = savaTokenSlice.actions
+export const {tokenLogin, addAutho} = savaTokenSlice.actions
 
 export default savaTokenSlice.reducer

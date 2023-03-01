@@ -18,7 +18,7 @@ const MenuCyberbug = () => {
       <div className="control">
         <div>
           <i className="fa fa-credit-card" /> &nbsp;
-          <NavLink to='/'>Cyber Board</NavLink>
+          <NavLink to='/cyberbug'>Cyber Board</NavLink>
         </div>
         <div>
           <i className="fa fa-cog" /> &nbsp;

@@ -24,6 +24,7 @@ const CreateProject = () => {
             categoryId: ''
         },
         onSubmit: values => {
+            
            dispatch({
             type: NEW_PROJECT_SAGA,
             newProject: values

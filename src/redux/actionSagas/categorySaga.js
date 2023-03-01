@@ -4,15 +4,15 @@ import { GET_ALL_CATEGORY_SAGA } from "../constan/cyberbugCategory";
 import { getAllCategory } from "../reducer/cyberbugCategory";
 
 
-function*getAllCategorySaga(){
-    try{
-          const {data, status} = yield call(userLoginServices.getAllCategory)
-          yield put(getAllCategory(data.content))
-    }catch(err){
+function* getAllCategorySaga() {
+    try {
+        const { data, status } = yield call(userLoginServices.getAllCategory)
+        yield put(getAllCategory(data.content))
+    } catch (err) {
         console.log(err.response.data);
     }
 }
 
-export function*followGetCategorySaga(){
+export function* followGetCategorySaga() {
     yield takeLatest(GET_ALL_CATEGORY_SAGA, getAllCategorySaga)
 }

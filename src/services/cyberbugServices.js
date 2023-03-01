@@ -34,16 +34,16 @@ export const userLoginServices = {
             headers: { 'Authorization': 'Bearer ' + localStorage.getItem(TOKEN) }
         })
     },
-    // updateNewProject: (updateProject) =>{
-    //     return axios({
-    //         url: `${DOMAIN_CYBERBUG}/api/Project/updateProject`,
-    //         method:'PUT',
-    //         data: updateProject,
-    //         headers: {'Authorization': 'Bearer ' + localStorage.getItem(TOKEN)}
+    updateProject: (projectUpdate) =>{
+        return axios({
+            url: `${DOMAIN_CYBERBUG}/api/Project/updateProject?projectId=${projectUpdate.id}`,
+            method:'PUT',
+            data: projectUpdate,
+            headers: {'Authorization': 'Bearer ' + localStorage.getItem(TOKEN)}
 
-    //     })
+        })
 
-    // }
+    }
 
 }
 

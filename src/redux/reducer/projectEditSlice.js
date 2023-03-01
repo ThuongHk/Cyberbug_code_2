@@ -16,6 +16,7 @@ const projectEditSlice = createSlice({
   initialState,
   reducers: {
    dataEdit: (state, action) =>{
+    console.log(action);
     state.projectEdit = action.payload
    }
   }
