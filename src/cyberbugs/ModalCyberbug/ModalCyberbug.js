@@ -1,6 +1,29 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { GET_PRIORITY_TYPE_SAGA } from '../../redux/constan/author';
+import { GET_ALL_STATUS_ID_SAGA } from '../../redux/constan/status';
+import { onChangeTask } from '../../redux/reducer/taskSlice';
+
 
 const ModalCyberbug = () => {
+
+  const { taskDetailModel } = useSelector(state=>state.taskSlice);
+  const {getStatusId} = useSelector(state => state.listStatusIdSlice);
+  const { listPriority } = useSelector(state => state.prioritySlice);
+  console.log(listPriority)
+  console.log(getStatusId)
+  const dispatch = useDispatch()
+  console.log(taskDetailModel)
+
+  useEffect(()=>{
+   dispatch({type: GET_ALL_STATUS_ID_SAGA});
+   dispatch({type: GET_PRIORITY_TYPE_SAGA})
+  },[])
+
+  const handleChange = (e) =>{
+    let {name, value} = e.target
+    dispatch(onChangeTask(name, value))
+  }
     return (
         <div>
              <div className="modal fade" id="searchModal" tabIndex={-1} role="dialog" aria-labelledby="searchModal" aria-hidden="true">
@@ -16,7 +39,7 @@ const ModalCyberbug = () => {
           </button>
         </div>
         <div className="modal-body">
-          <p>RECENT ISSUES</p>
+          <p>Hello</p>
           <div style={{display: 'flex'}}>
             <div className="icon">
               <i className="fa fa-bookmark" />
@@ -37,7 +60,7 @@ const ModalCyberbug = () => {
         <div className="modal-header">
           <div className="task-title">
             <i className="fa fa-bookmark" />
-            <span>TASK-217871</span>
+            <span></span>
           </div>
           <div style={{display: 'flex'}} className="task-click">
             <div>
@@ -58,44 +81,10 @@ const ModalCyberbug = () => {
           <div className="container-fluid">
             <div className="row">
               <div className="col-8">
-                <p className="issue">This is an issue of type: Task.</p>
+                <p className="issue">{taskDetailModel.taskName}</p>
                 <div className="description">
                   <p>Description</p>
-                  <p>
-                    Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                    Esse expedita quis vero tempora error sed reprehenderit
-                    sequi laborum, repellendus quod laudantium tenetur nobis
-                    modi reiciendis sint architecto. Autem libero quibusdam
-                    odit assumenda fugiat? Beatae aliquid labore vitae
-                    obcaecati sapiente asperiores quia amet id aut, natus quo
-                    molestiae quod voluptas, temporibus iusto laudantium sit
-                    tempora sequi. Rem, itaque id, fugit magnam asperiores
-                    voluptas consectetur aliquid vel error illum, delectus eum
-                    eveniet laudantium at repudiandae!
-                  </p>
-                </div>
-                <div style={{fontWeight: 500, marginBottom: 10}}>
-                  Jira Software (software projects) issue types:
-                </div>
-                <div className="title">
-                  <div className="title-item">
-                    <h3>BUG <i className="fa fa-bug" /></h3>
-                    <p>
-                      A bug is a problem which impairs or prevents the
-                      function of a product.
-                    </p>
-                  </div>
-                  <div className="title-item">
-                    <h3>STORY <i className="fa fa-book-reader" /></h3>
-                    <p>
-                      A user story is the smallest unit of work that needs to
-                      be done.
-                    </p>
-                  </div>
-                  <div className="title-item">
-                    <h3>TASK <i className="fa fa-tasks" /></h3>
-                    <p>A task represents work that needs to be done</p>
-                  </div>
+                 {taskDetailModel.description}
                 </div>
                 <div className="comment">
                   <h6>Comment</h6>
@@ -143,31 +132,34 @@ const ModalCyberbug = () => {
               <div className="col-4">
                 <div className="status">
                   <h6>STATUS</h6>
-                  <select className="custom-select">
-                    <option selected>SELECTED FOR DEVELOPMENT</option>
-                    <option value={1}>One</option>
-                    <option value={2}>Two</option>
-                    <option value={3}>Three</option>
+                  <select className="custom-select" value={getStatusId.statusId} onChange={handleChange}>
+                    {getStatusId.map((status,index)=>{
+                      return <option key={index} value={status.statusId}>{status.statusName}</option>
+                    })}
+                    
                   </select>
                 </div>
                 <div className="assignees">
                   <h6>ASSIGNEES</h6>
-                  <div style={{display: 'flex'}}>
-                    <div style={{display: 'flex'}} className="item">
+                  <div style={{display: 'flex', height: 'auto', alignItem: 'center'}}>
+                    {taskDetailModel.assigness.map((user,index)=>{
+                      return  <div key={index} style={{display: 'flex'}} className="item">
                       <div className="avatar">
-                        <img src="./assets/img/download (1).jfif" alt='l7' />
+                        <img src={user.avatar} alt={user.avatar} />
                       </div>
                       <p className="name">
-                        Pickle Rick
+                        {user.name}
                         <i className="fa fa-times" style={{marginLeft: 5}} />
                       </p>
                     </div>
+                    })}
+                    
                     <div style={{display: 'flex', alignItems: 'center'}}>
                       <i className="fa fa-plus" style={{marginRight: 5}} /><span>Add more</span>
                     </div>
                   </div>
                 </div>
-                <div className="reporter">
+                {/* <div className="reporter">
                   <h6>REPORTER</h6>
                   <div style={{display: 'flex'}} className="item">
                     <div className="avatar">
@@ -178,14 +170,15 @@ const ModalCyberbug = () => {
                       <i className="fa fa-times" style={{marginLeft: 5}} />
                     </p>
                   </div>
-                </div>
+                </div> */}
                 <div className="priority" style={{marginBottom: 20}}>
                   <h6>PRIORITY</h6>
-                  <select>
-                    <option>Highest</option>
-                    <option>Medium</option>
-                    <option>Low</option>
-                    <option>Lowest</option>
+                  <select value={taskDetailModel.priorityTask.priorityId}>
+                    {listPriority.map((item,index)=>{
+                      return <option key={index} value={item.priorityId}>{item.priority}</option>
+                    })}
+                    
+                   
                   </select>
                 </div>
                 <div className="estimate">

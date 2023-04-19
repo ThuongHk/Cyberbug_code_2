@@ -21,7 +21,14 @@ export class ProjectServices extends BasicServices {
     }
 
     deleteMember = (memberItem) =>{
-        return this.post(`api/Project/removeUserFromTask`, memberItem)
+        return this.post(`api/Project/removeUserFromProject`, memberItem)
+    }
+
+    projectDetail = (id) =>{
+        return this.get(`api/Project/getProjectDetail?id=${id}`)
+    }
+    getAllProject = ()=>{
+        return this.get('api/Project/getAllProject')
     }
 
 }

@@ -1,10 +1,17 @@
 import { call, put, takeLatest } from "redux-saga/effects";
 import { userLoginServices } from "../../services/cyberbugServices";
+import { priorityServices } from "../../services/priorityServices";
 import { projectServices } from "../../services/projectServices";
+import { taskTypeServices } from "../../services/taskTypeServices";
+import { userServices } from "../../services/userServices";
 import { STATUS_CODE } from "../../util/settingSytem";
-import { ADD_USER_PROJECT_SAGA, DELETE_MEMBER, DELETE_PROJECT_SAGA, GET_LIST_PROJECT_SAGA, NEW_PROJECT_SAGA, PUSH_USER_ARRAY_SAGA, UPDATE_PROJECT_SAGA } from "../constan/author";
-import { getListProject, updateProjectAction } from "../reducer/listProjectSlice";
+import { ADD_USER_PROJECT_SAGA, DELETE_MEMBER, DELETE_PROJECT_SAGA, GET_ALL_PROJECT_SAGA, GET_ALL_TASK_TYPE_SAGA, GET_LIST_PROJECT_SAGA, GET_PRIORITY_TYPE_SAGA, GET_PROJECT_DETAIL_SAGA, GET_USER_SAGA, NEW_PROJECT_SAGA, PUSH_USER_ARRAY_SAGA, UPDATE_PROJECT_SAGA } from "../constan/author";
+import { getAllProject, getListProject, updateProjectAction } from "../reducer/listProjectSlice";
+import { getPriority } from "../reducer/prioritySlice";
+import { projectDetail } from "../reducer/projectEditSlice";
 import { addAutho } from "../reducer/savaTokenSlice";
+import { getTaskType } from "../reducer/taskTypeSlice";
+import { getUser } from "../reducer/userSlice";
 
 
 
@@ -90,55 +97,136 @@ export function* followDeleteProject() {
   yield takeLatest(DELETE_PROJECT_SAGA, deteteProjectSaga)
 }
 
-function*getUserProjectSaga(action){
-  try{
-    const { data, status} = yield call(()=> projectServices.searchUserProject(action.keyWord));
+function* getUserProjectSaga(action) {
+  try {
+    const { data, status } = yield call(() => projectServices.searchUserProject(action.keyWord));
+
 
     yield put(addAutho(data.content))
 
-  }catch(err){
+  } catch (err) {
     console.log(err);
   }
 }
 
 
-export function*followGetUserProject(){
+export function* followGetUserProject() {
   yield takeLatest(ADD_USER_PROJECT_SAGA, getUserProjectSaga)
 }
 
-function*pushUserArray(action){
-    console.log(action);
-  try{
-    const {data, status} = yield call(()=> projectServices.pushUserArray(action.userItem))
+function* pushUserArray(action) {
+  console.log(action);
+  try {
+    const { data, status } = yield call(() => projectServices.pushUserArray(action.userItem))
 
     console.log(status);
-    if(status === STATUS_CODE.SUCCESS){
+    if (status === STATUS_CODE.SUCCESS) {
       yield put({
-         type: GET_LIST_PROJECT_SAGA
+        type: GET_LIST_PROJECT_SAGA
       })
     }
 
-  }catch(err){
+  } catch (err) {
     console.log(err);
   }
 }
 
-export function*followPushUserArray(){
+export function* followPushUserArray() {
   yield takeLatest(PUSH_USER_ARRAY_SAGA, pushUserArray)
 }
 
-function*deleteMemberSaga(action){
-  try{
-    yield call(()=> projectServices.deleteMember(action.memberItem) )
+function* deleteMemberSaga(action) {
+
+  try {
+    yield call(() => projectServices.deleteMember(action.memberItem))
     yield put({
       type: GET_LIST_PROJECT_SAGA
     })
-  }catch(err){
+  } catch (err) {
     console.log(err);
   }
 }
 
 
-export function*followDeleteMember(){
+export function* followDeleteMember() {
   yield takeLatest(DELETE_MEMBER, deleteMemberSaga)
+}
+
+
+function* getProjectDetailSaga(action) {
+  try {
+    const { data, status } = yield call(() => projectServices.projectDetail(action.id))
+   
+    yield put(projectDetail(data.content))
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+
+
+export function* followGetProjectDetail() {
+  yield takeLatest(GET_PROJECT_DETAIL_SAGA, getProjectDetailSaga)
+}
+
+
+function* getAllProjectSaga() {
+  try {
+    const { data, status } = yield call(() => projectServices.getAllProject())
+
+
+    yield put(getAllProject(data.content))
+  } catch (err) {
+    console.log(err)
+  }
+}
+
+
+export function* followGetAllProject() {
+  yield takeLatest(GET_ALL_PROJECT_SAGA, getAllProjectSaga)
+}
+
+
+function* getAllTaskTypeSaga() {
+  try {
+    const { data, status } = yield call(() => taskTypeServices.getTaskType())
+    yield put(getTaskType(data.content))
+
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+export function* followGetAllTaskType() {
+  yield takeLatest(GET_ALL_TASK_TYPE_SAGA, getAllTaskTypeSaga)
+}
+
+function* getPrioritySaga() {
+  try {
+    const { data, status } = yield call(() => priorityServices.getPriority())
+
+    yield put(getPriority(data.content))
+
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+export function* followGetPriority() {
+  yield takeLatest(GET_PRIORITY_TYPE_SAGA, getPrioritySaga)
+}
+
+function*getUserSaga(){
+  try{ 
+   const { data, status } =  yield call(()=> userServices.getUser())
+   console.log(data);
+   yield put(getUser(data.content))
+
+  }catch(err){
+    console.log(err);
+  }
+}
+
+export function*followGetUser(){
+  yield takeLatest(GET_USER_SAGA, getUserSaga)
 }

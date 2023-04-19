@@ -11,6 +11,7 @@ import {
 import parse from 'html-react-parser'
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { NavLink } from 'react-router-dom'
 import FormEdit from '../../components/formEdit/FormEdit'
 import {
   ADD_USER_PROJECT_SAGA,
@@ -27,8 +28,11 @@ import styles from './ProjectManagement.module.scss'
 
 const ProjectManagement = () => {
   const projectList = useSelector((state) => state.listProjectSlice.listProject)
+  
   const { addUserAutho } = useSelector((state) => state.savaTokenSlice)
   const [value, setValue] = useState('')
+  console.log(projectList);
+  
 
   const columns = [
     {
@@ -40,9 +44,10 @@ const ProjectManagement = () => {
     {
       title: 'projectName',
       dataIndex: 'projectName',
-      sorter: (item1, item2) => {
-        let a = item1.projectName.trim().toLowerCase()
-        let b = item2.projectName.trim().toLowerCase()
+      render: (text,record,index) => {return <NavLink to={`${record.id}`}>{text}</NavLink>},
+      sorter: (a1, b1) => {
+        let a = a1.projectName.trim().toLowerCase()
+        let b = b1.projectName.trim().toLowerCase()
         if (a < b) {
           return -1
         }
@@ -90,8 +95,8 @@ const ProjectManagement = () => {
                             dispatch({
                               type: DELETE_MEMBER,
                               memberItem: {
-                                "userId": member.userId,
-                                "taskId": record.id
+                                "projectId": record.id,
+                                "userId": member.userId
                               }
                             })
 
@@ -120,7 +125,10 @@ const ProjectManagement = () => {
                     return { lable: user.name, value: user.userId.toString() }
                   })}
 
+                 
+                       
                   onSelect={(value, option) => {
+                    console.log('option', option)
                     setValue(option.lable)
                     dispatch({
                       type: PUSH_USER_ARRAY_SAGA,
@@ -130,11 +138,14 @@ const ProjectManagement = () => {
                       }
                     })
                   }}
-
                   value={value}
-                  onChange={(value) => {
-                    setValue(value)
+                  onChange={(text) => {
+                    setValue(text)
                   }}
+                  
+                  // sự kiện onSearch gửi value lên và server trả về mảng options, còn sự kiện onSelect khi click 
+                  // vào bất kỳ user nào xuất hiện dưới list AutoComlete thì sẽ thêm user đó vào mảng
+                  
                   onSearch={(value) => {
                     dispatch({
                       type: ADD_USER_PROJECT_SAGA,
@@ -158,7 +169,9 @@ const ProjectManagement = () => {
       title: 'Action',
       dataIndex: 'action',
       render: (text, record, index) => (
+        
         <Space size="middle">
+         
           <button
             className="btn btn-warning btn-sm"
             onClick={() => {
@@ -166,6 +179,7 @@ const ProjectManagement = () => {
                 visible: true,
                 Component: <FormEdit />,
               }
+            
               dispatch(openFormEdit(action))
               dispatch(dataEdit(record))
             }}
@@ -187,26 +201,7 @@ const ProjectManagement = () => {
       ),
     },
   ]
-  const data = [
-    {
-      key: '1',
-      name: 'John Brown',
-      age: 32,
-      address: 'New York No. 1 Lake Park',
-    },
-    {
-      key: '2',
-      name: 'Jim Green',
-      age: 42,
-      address: 'London No. 1 Lake Park',
-    },
-    {
-      key: '3',
-      name: 'Joe Black',
-      age: 32,
-      address: 'Sydney No. 1 Lake Park',
-    },
-  ]
+ 
 
   const dispatch = useDispatch()
 
@@ -229,3 +224,28 @@ const ProjectManagement = () => {
   )
 }
 export default ProjectManagement
+
+
+
+
+
+// const data = [
+//   {
+//     key: '1',
+//     name: 'John Brown',
+//     age: 32,
+//     address: 'New York No. 1 Lake Park',
+//   },
+//   {
+//     key: '2',
+//     name: 'Jim Green',
+//     age: 42,
+//     address: 'London No. 1 Lake Park',
+//   },
+//   {
+//     key: '3',
+//     name: 'Joe Black',
+//     age: 32,
+//     address: 'Sydney No. 1 Lake Park',
+//   },
+// ]

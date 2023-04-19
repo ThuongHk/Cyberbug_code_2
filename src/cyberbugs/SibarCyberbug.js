@@ -1,7 +1,13 @@
 import React from 'react'
+import { useDispatch } from 'react-redux'
+import FormCreateTask from '../components/formCreateTask/FormCreateTask';
+import { openFormEdit } from '../redux/reducer/cyberbugModalSlice';
 import './Cyberbug.css'
 
+
 const SibarCyberbug = () => {
+
+    const dispatch =useDispatch();
   return (
       <div className="sideBar">
           <div className="sideBar-top">
@@ -19,7 +25,10 @@ const SibarCyberbug = () => {
               </div>
               <div className="sideBar-icon">
                   <i className="fa fa-plus" />
-                  <span className="title">CREATE ISSUES</span>
+                  <span className="title" style={{cursor: 'pointer'}} onClick={()=>{
+                    const action = {visible: true, Component: <FormCreateTask/>}
+                    dispatch(openFormEdit(action))
+                  }}>CREATE TASK</span>
               </div>
           </div>
           <div className="sideBar-bottom">

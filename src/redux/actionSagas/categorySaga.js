@@ -7,6 +7,8 @@ import { getAllCategory } from "../reducer/cyberbugCategory";
 function* getAllCategorySaga() {
     try {
         const { data, status } = yield call(userLoginServices.getAllCategory)
+        console.log(data);
+        
         yield put(getAllCategory(data.content))
     } catch (err) {
         console.log(err.response.data);

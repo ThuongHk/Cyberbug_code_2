@@ -1,61 +1,57 @@
 import React from 'react'
+import { useDispatch } from 'react-redux';
+import { GET_TASK_DETAIL_SAGA } from '../../redux/constan/task';
 
-const Content = () => {
-    return (
-        <div className="content" style={{display: 'flex'}}>
-        <div className="card" style={{width: '17rem', height: '25rem'}}>
+const Content = (props) => {
+  const { listTask } = props;
+
+  const dispatch = useDispatch()
+  const renderListTask = () => {
+    return listTask.lstTask?.map((task, index) => {
+      return (
+        <div className="card" style={{ width: '17rem', height: '25rem' }}>
           <div className="card-header">
-            BACKLOG 3
+            {task.taskName}
           </div>
           <ul className="list-group list-group-flush">
-            <li className="list-group-item" data-toggle="modal" data-target="#infoModal" style={{cursor: 'pointer'}}>
-              <p>
-                Each issue has a single reporter but can have multiple
-                assignees
-              </p>
-              <div className="block" style={{display: 'flex'}}>
-                <div className="block-left">
-                  <i className="fa fa-bookmark" />
-                  <i className="fa fa-arrow-up" />
-                </div>
-                <div className="block-right">
-                  <div className="avatar-group" style={{display: 'flex'}}>
-                    <div className="avatar">
-                      <img src="./assets/img/download (1).jfif" alt='l1' />
-                    </div>
-                    <div className="avatar">
-                      <img src="./assets/img/download (2).jfif" alt='l2' />
+            {task.lstTaskDeTail.map((tsk, index) => {
+              return <li key={index} className="list-group-item" data-toggle="modal" data-target="#infoModal" style={{ cursor: 'pointer' }}
+              onClick={()=> { dispatch({type: GET_TASK_DETAIL_SAGA, taskId: tsk.taskId})}}
+              >
+                <p>
+                  <b>{tsk.taskName}</b>
+                </p>
+                <div className="block" style={{ display: 'flex' }}>
+                  <div className="block-left">
+                    <i className="fa fa-bookmark" />
+                    <i className="fa fa-arrow-up" />
+                  </div>
+                  <div className="block-right">
+                    <div className="avatar-group" style={{ display: 'flex' }}>
+                      {tsk.assigness?.map((ass, index) => {
+                        <div className="avatar">
+                          <img src={ass.avatar} alt={ass.avatar} />
+                        </div>
+                      })}
                     </div>
                   </div>
                 </div>
-              </div>
-            </li>
-            <li className="list-group-item">
-              <p>
-                Each issue has a single reporter but can have multiple
-                assignees
-              </p>
-              <div className="block" style={{display: 'flex'}}>
-                <div className="block-left">
-                  <i className="fa fa-check-square" />
-                  <i className="fa fa-arrow-up" />
-                </div>
-                <div className="block-right">
-                  <div className="avatar-group" style={{display: 'flex'}}>
-                    <div className="avatar">
-                      <img src="./assets/img/download (1).jfif" alt='assl' />
-                    </div>
-                    <div className="avatar">
-                      <img src="./assets/img/download (2).jfif" alt='kka' />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </li>
-            <li className="list-group-item">Vestibulum at eros</li>
+              </li>
+            })}
+
           </ul>
         </div>
-        <div className="card" style={{width: '17rem', height: '25rem'}}>
+      )
+    })
+  }
+
+
+
+
+  return (
+    <div className="content" style={{ display: 'flex' }}>
+      {renderListTask()}
+      {/* <div className="card" style={{width: '17rem', height: '25rem'}}>
           <div className="card-header">
             SELECTED FOR DEVELOPMENT 2
           </div>
@@ -82,9 +78,9 @@ const Content = () => {
             <li className="list-group-item">Dapibus ac facilisis in</li>
             <li className="list-group-item">Vestibulum at eros</li>
           </ul>
-        </div>
-      </div>
-    )
+        </div> */}
+    </div>
+  )
 }
 
 export default Content

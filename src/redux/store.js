@@ -11,6 +11,11 @@ import todolistSlice from "./reducer/todolistSlice";
 import projectEditSlice from "./reducer/projectEditSlice";
 import cyberbugModalSlice from "./reducer/cyberbugModalSlice";
 import listProjectSlice from "./reducer/listProjectSlice";
+import taskTypeSlice from "./reducer/taskTypeSlice";
+import prioritySlice from "./reducer/prioritySlice";
+import userSlice from "./reducer/userSlice";
+import listStatusIdSlice from "./reducer/listStatusIdSlice";
+import taskSlice from "./reducer/taskSlice";
 
 
 const sagaMiddleware = createSagaMiddleware();
@@ -23,7 +28,12 @@ const store = configureStore({
         cyberbugCategory,
         projectEditSlice,
         cyberbugModalSlice,
-        listProjectSlice 
+        listProjectSlice,
+        taskTypeSlice,
+        prioritySlice,
+        userSlice,
+        listStatusIdSlice,
+        taskSlice 
     },
     middleware: [sagaMiddleware]
 })

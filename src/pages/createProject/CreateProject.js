@@ -21,7 +21,7 @@ const CreateProject = () => {
         initialValues: {
             projectName: '',
             description: '',
-            categoryId: ''
+            categoryId: '1'
         },
         onSubmit: values => {
             
@@ -57,7 +57,7 @@ const CreateProject = () => {
                         onEditorChange={()=>{formik.setFieldValue('description', editorRef.current.getContent())}}
 
                         onInit={(evt, editor) => editorRef.current = editor}
-                        initialValue="<p>This is the initial content of the editor.</p>"
+                        initialValue="This is the initial content of the editor."
                         init={{
                             height: 500,
                             menubar: false,

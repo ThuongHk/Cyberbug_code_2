@@ -22,6 +22,8 @@ const FormEdit = (props) => {
         })
     }, [])
     const { arrProjectCategory } = useSelector(state => state.cyberbugCategory);
+    console.log(arrProjectCategory);
+    
 
 
 
@@ -43,7 +45,7 @@ const FormEdit = (props) => {
            dispatch(closeDrawer(false))
         }
     })
-      // ----code Antd----
+      // ----code @tinymce/tinymce-react----
     const editorRef = useRef(null);
     const log = (e) => {
         e.preventDefault();      
@@ -53,7 +55,7 @@ const FormEdit = (props) => {
         }
     };
 
-    // -----/code Antd-----
+    // -----/code @tinymce/tinymce-react-----
    
 
     useEffect(() => {
@@ -87,6 +89,7 @@ const FormEdit = (props) => {
                     </div>
                     <div className="col-4">
                         <div className="form-group">
+                            <p>Categority</p>
                             <select className='form-control' name='categoryId' value={formik.values?.categoryId}
                                 onChange={formik.handleChange}>
                                 {arrProjectCategory.map((item, index) => {

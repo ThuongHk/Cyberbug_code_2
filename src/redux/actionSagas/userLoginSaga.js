@@ -10,16 +10,16 @@ function* userLogin(action) {
     yield put(displayLoading(true));
     yield delay(500);
     try {
-        const { data, status } = yield call(() =>
-            userLoginServices.userLogin(userLogin)
+        const { data, status } = yield call(() => userLoginServices.userLogin(userLogin)
+       
         );
-
+        
         localStorage.setItem(TOKEN, data.content.accessToken);
         localStorage.setItem(USER_LOGIN, JSON.stringify(data.content));
 
         const navigate = yield select((state) => state.navigateSlice.userNavigate);
 
-        navigate("/cyberbug");
+        navigate("/todolistsaga");
         yield put(tokenLogin(data.content));
     } catch (err) {
         console.log(err);

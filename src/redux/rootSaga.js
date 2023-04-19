@@ -4,6 +4,8 @@ import * as followActionTodolist from './actionSagas/todolistSaga';
 import * as followActionUserAction from './actionSagas/userLoginSaga';
 import * as followCategory from './actionSagas/categorySaga';
 import * as followProjectAuthor from './actionSagas/projectAuthorSaga';
+import * as followCreateTask from './actionSagas/taskSaga';
+import * as followStatusId from './actionSagas/statusIdSaga';
 
 
 
@@ -28,6 +30,18 @@ export function*rootSaga(){
     followProjectAuthor.followGetUserProject(),
     followProjectAuthor.followPushUserArray(),
     followProjectAuthor.followDeleteMember(),
+    followProjectAuthor.followGetProjectDetail(),
+    followProjectAuthor.followGetAllProject(),
+    followProjectAuthor.followGetAllTaskType(),
+    followProjectAuthor.followGetPriority(),
+    followProjectAuthor.followGetUser(),
+
+    followCreateTask.followCreateTask(),
+    followCreateTask.followUpdateUser(),
+    followCreateTask.followGetTaskDetailSaga(),
+
+    followStatusId.followGetStatusId()
+
 
 
  ])

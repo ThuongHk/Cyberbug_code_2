@@ -8,7 +8,8 @@ const initialState = {
     "creator": 0,
     "description": "string",
     "categoryId": "string"
-  }
+  },
+  listProjectDetail: []
 }
 
 const projectEditSlice = createSlice({
@@ -18,10 +19,13 @@ const projectEditSlice = createSlice({
    dataEdit: (state, action) =>{
     console.log(action);
     state.projectEdit = action.payload
+   },
+   projectDetail: (state, action) =>{    
+    state.listProjectDetail = action.payload
    }
   }
 });
 
-export const {dataEdit} = projectEditSlice.actions
+export const {dataEdit, projectDetail} = projectEditSlice.actions
 
 export default projectEditSlice.reducer
